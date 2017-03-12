@@ -1,6 +1,6 @@
 # mina-instana
 
-Send [Mina](http://nadarei.co/mina/) deploy events to Instana.
+Send [Mina](http://nadarei.co/mina/) deploy events to [Instana](https://www.instana.com/).
 
 ![instana deploy notification started 2017-03-12 at 15 08 10](https://cloud.githubusercontent.com/assets/395132/23832516/063eab12-0736-11e7-9862-071649928131.png)
 ![instana deploy notification finished 2017-03-12 at 15 07 00](https://cloud.githubusercontent.com/assets/395132/23832517/0646b262-0736-11e7-9388-1525329ecd5c.png)
@@ -30,6 +30,8 @@ require 'mina/instana'
 Deploy...
 
 Profit!
+
+_Note: The Instana agent should be running on the same host from where deploys are launched._
 
 ## Development
 
