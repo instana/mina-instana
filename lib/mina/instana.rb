@@ -1,10 +1,11 @@
+require "rake"
 require "mina/instana/version"
 require 'mina/hooks'
 require 'net/http'
 require 'json'
 
-before_mina :deploy, :'instana:start_deploy'
-after_mina :deploy, :'instana:finish_deploy'
+before_mina :deploy, :'instana:start_deploy' if defined?(before_mina)
+after_mina :deploy, :'instana:finish_deploy' if defined?(after_mina)
 
 namespace :instana do
   desc "Send start deploy notification to Instana"
@@ -14,12 +15,12 @@ namespace :instana do
     return if simulate_mode?
 
     payload = {}
-    repo_name = File.basename(%x[git rev-parse --show-toplevel])
+    repo_name = File.basename(%x[git rev-parse --show-toplevel]).strip
     deployer  = ENV['GIT_AUTHOR_NAME'] || %x[git config user.name].chomp
     revision  = ENV['GIT_COMMIT'] || %x[git rev-parse #{branch}].strip
 
     payload[:title] = "Deploy started: #{repo_name}"
-    payload[:text] = "#{deployer} started deploy of #{repo_name}@#{revision}"
+    payload[:text] = "#{deployer} started deploy of #{repo_name}@#{revision[0..7]}"
 
     begin
       uri = URI('http://127.0.0.1:42699/com.instana.plugin.generic.event')
@@ -40,12 +41,12 @@ namespace :instana do
     return if simulate_mode?
 
     payload = {}
-    repo_name = File.basename(%x[git rev-parse --show-toplevel])
+    repo_name = File.basename(%x[git rev-parse --show-toplevel]).strip
     deployer  = ENV['GIT_AUTHOR_NAME'] || %x[git config user.name].chomp
     revision  = ENV['GIT_COMMIT'] || %x[git rev-parse #{branch}].strip
 
     payload[:title] = "Deploy finished: #{repo_name}"
-    payload[:text] = "#{deployer} finished deploy of #{repo_name}@#{revision}"
+    payload[:text] = "#{deployer} finished deploy of #{repo_name}@#{revision[0..7]}"
 
     begin
       uri = URI('http://127.0.0.1:42699/com.instana.plugin.generic.event')
