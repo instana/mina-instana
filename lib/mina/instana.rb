@@ -1,6 +1,7 @@
 require "mina/instana/version"
 require 'mina/hooks'
 require 'net/http'
+require 'json'
 
 before_mina :deploy, :'instana:start_deploy'
 after_mina :deploy, :'instana:finish_deploy'
