@@ -2,6 +2,9 @@
 
 Send [Mina](http://nadarei.co/mina/) deploy events to Instana.
 
+![instana deploy notification started 2017-03-12 at 15 08 10](https://cloud.githubusercontent.com/assets/395132/23832516/063eab12-0736-11e7-9862-071649928131.png)
+![instana deploy notification finished 2017-03-12 at 15 07 00](https://cloud.githubusercontent.com/assets/395132/23832517/0646b262-0736-11e7-9388-1525329ecd5c.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
