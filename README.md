@@ -1,6 +1,6 @@
-# Mina::Instana
+# mina-instana
 
-Send Mina deploy events to Instana.
+Send [Mina](http://nadarei.co/mina/) deploy events to Instana.
 
 ## Installation
 
@@ -20,14 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-1. Add the following to your `config/deploy.rb`
+Add the following to your `config/deploy.rb`
 ```
 require 'mina/instana'
 ```
+Deploy...
 
-2. ...
-
-3. Profit!
+Profit!
 
 ## Development
 
