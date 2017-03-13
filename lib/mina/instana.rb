@@ -1,18 +1,12 @@
 require "rake"
 require "mina/instana/version"
-require 'mina/hooks'
 require 'net/http'
 require 'json'
-
-before_mina :deploy, :'instana:start_deploy' if defined?(before_mina)
-after_mina :deploy, :'instana:finish_deploy' if defined?(after_mina)
 
 namespace :instana do
   desc "Send start deploy notification to Instana"
   task :start_deploy do
     comment 'Sending deploy start notification to Instana'
-
-    return if simulate_mode?
 
     payload = {}
     repo_name = File.basename(%x[git rev-parse --show-toplevel]).strip
@@ -38,12 +32,10 @@ namespace :instana do
   task :finish_deploy do
     comment 'Sending deploy finish notification to Instana'
 
-    return if simulate_mode?
-
     payload = {}
     repo_name = File.basename(%x[git rev-parse --show-toplevel]).strip
     deployer  = ENV['GIT_AUTHOR_NAME'] || %x[git config user.name].chomp
-    revision  = ENV['GIT_COMMIT'] || %x[git rev-parse #{branch}].strip
+    revision  = ENV['GIT_COMMIT'] || %x[git rev-parse #{fetch(:branch)}].strip
 
     payload[:title] = "Deploy finished: #{repo_name}"
     payload[:text] = "#{deployer} finished deploy of #{repo_name}@#{revision[0..7]}"
@@ -59,5 +51,9 @@ namespace :instana do
       print_error "Error posting notification to Instana: #{e.inspect}"
     end
   end
+end
+
+on :deploy do
+  invoke 'instana:finish_deploy'
 end
 
