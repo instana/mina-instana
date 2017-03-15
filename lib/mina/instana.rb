@@ -23,6 +23,8 @@ namespace :instana do
       Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(req)
       end
+    rescue Errno::ECONNREFUSED
+      print_error "The Instana host agent isn't running on localhost.  Can't post deploy notifications."
     rescue => e
       print_error "Error posting notification to Instana: #{e.inspect}"
     end
@@ -47,7 +49,9 @@ namespace :instana do
       Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(req)
       end
-    rescue
+    rescue Errno::ECONNREFUSED
+      print_error "The Instana host agent isn't running on localhost.  Can't post deploy notifications."
+    rescue => e
       print_error "Error posting notification to Instana: #{e.inspect}"
     end
   end
